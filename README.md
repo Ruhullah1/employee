@@ -50,7 +50,7 @@
 Defects:
 
 
-Defect #1
+observation #1
 
 Title: Delete confirmation is not displaying
 
@@ -62,7 +62,7 @@ Steps to reproduce:
 Actual: Delete employee confirmation is not displaying
 Expected: Delete employee confirmation should display
 
-Defect #2
+Defect #1
 
 Title:Error message "Project is required" is displaying even after selecting the Current Project
 
