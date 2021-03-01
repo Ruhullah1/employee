@@ -57,7 +57,7 @@ public void setUp() throws MalformedURLException{
 	wait = new WebDriverWait(driver, 20);
 }
 
-//@Test(priority=1)
+@Test(priority=1)
 public void employeeFormValidation() throws Exception {
  
    clickElement(By.xpath("//android.widget.ImageButton[contains(@resource-id,'fab')]"));
@@ -84,7 +84,7 @@ public void employeeFormValidation() throws Exception {
 
 }
 
-//@Test(priority=2)
+@Test(priority=2)
 public void deleteEmployeeTest() {
 	String firstName = "testuser";
 	String Lastname = "testuser";
@@ -93,7 +93,7 @@ public void deleteEmployeeTest() {
 	deleteUser(firstName,Lastname);
 	} 
 
-//@Test(priority=3)
+@Test(priority=3)
 public void advertisementAppearTest() {
 	
 	int userCount = 1;
@@ -115,7 +115,7 @@ public void advertisementAppearTest() {
 }
 
 
-@Test(priority=1)
+@Test(priority=4)
 public void multipleUsersAdditionAndDeletion() {
 	
 	String userName = "testuser";
