@@ -1,50 +1,70 @@
 package com.employee.tests;
 
+import org.testng.annotations.Test;
+
+import io.appium.java_client.MobileDriver;
+import io.appium.java_client.PerformsTouchActions;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.offset.PointOption;
+import io.appium.java_client.touch.WaitOptions;
+
+import org.testng.annotations.BeforeMethod;
+
+import static org.junit.Assert.assertTrue;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Ignore;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 //import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
+//import org.openqa.selenium.remote.RemoteWebDriver;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 
 public class EmployeeTest{
-WebDriver driver;
-
+//WebDriver driver;
+AndroidDriver driver;	
+WebDriverWait wait = null;
 @BeforeTest
 public void setUp() throws MalformedURLException{
 	//Set up desired capabilities and pass the Android app-activity and app-package to Appium
+	
 	DesiredCapabilities capabilities = new DesiredCapabilities();
-	capabilities.setCapability("BROWSER_NAME", "Android");
+	capabilities.setCapability("automationName", "UiAutomator2");
 	capabilities.setCapability("VERSION", "10"); 
 	capabilities.setCapability("deviceName","c4ee1482");
 	capabilities.setCapability("platformName","Android");
  
    
 	capabilities.setCapability("app", "C:\\Users\\Ruhullah\\Downloads\\app-debug.apk");
-	driver = new RemoteWebDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	//driver = new RemoteWebDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+	driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
 	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	wait = new WebDriverWait(driver, 20);
 }
 
-
-@Test
+//@Test(priority=1)
 public void employeeFormValidation() throws Exception {
-   //locate the Text on the calculator by using By.name()
-   WebElement addEmpElement=driver.findElement(By.xpath("//android.widget.ImageButton[contains(@resource-id,'fab')]"));
-   addEmpElement.click();
-   
-   driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+ 
+   clickElement(By.xpath("//android.widget.ImageButton[contains(@resource-id,'fab')]"));
 
+   clickElement(By.xpath("//android.widget.Button[contains(@resource-id,'createButton')]"));
 
-   WebElement createButtonElement=driver.findElement(By.xpath("//android.widget.Button[contains(@resource-id,'createButton')]"));
-   createButtonElement.click();
+  
    
    WebElement firstNameValidatorElement=driver.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'validationFirstNameTextView')]"));
    
@@ -64,120 +84,162 @@ public void employeeFormValidation() throws Exception {
 
 }
 
-
-@Test
-public void employeeFormValidation2() throws Exception {
-   //locate the Text on the calculator by using By.name()
-   WebElement addEmpElement=driver.findElement(By.xpath("//android.widget.ImageButton[contains(@resource-id,'fab')]"));
-   addEmpElement.click();
-   
-   driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-
-   WebElement createButtonElement=driver.findElement(By.xpath("//android.widget.Button[contains(@resource-id,'createButton')]"));
-   createButtonElement.click();
-   
-   WebElement firstNameValidatorElement=driver.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'validationFirstNameTextView')]"));
-   
-   WebElement lastNameValidatorElement=driver.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'validationLastNameTextView')]"));
-   
-   WebElement jobTitleValidatorElement=driver.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'validationTitleTextView')]"));
-   
-   WebElement projectSpinnerElement=driver.findElement(By.xpath("//android.widget.Spinner[contains(@resource-id,'projectSpinner')]"));
-   
-   new Select(projectSpinnerElement).selectByIndex(1);
-   
-   WebElement projectValidatorElement=driver.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'validationProjectTextView')]"));
-   
-   
-   assert firstNameValidatorElement.getText().equals("First Name is Required"):"Actual value is : "+firstNameValidatorElement.getText()+" did not match with expected value";
-
-   assert lastNameValidatorElement.getText().equals("Last Name is Required"):"Actual value is : "+lastNameValidatorElement.getText()+" did not match with expected value";
-
-   assert jobTitleValidatorElement.getText().equals("Position is Required"):"Actual value is : "+jobTitleValidatorElement.getText()+" did not match with expected value";
-
-   assert projectValidatorElement.getText().equals(""):"Actual value is : "+projectValidatorElement.getText()+" did not match with expected value";
-
-}
-
-@Test
+//@Test(priority=2)
 public void deleteEmployeeTest() {
-	
-    WebElement firstEmployee=driver.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'fullNameTextView')]"));
-    firstEmployee.click();
-    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	String firstName = "testuser";
+	String Lastname = "testuser";
+	addUser(firstName,Lastname);
+	 verifyadduser(firstName,Lastname);
+	deleteUser(firstName,Lastname);
+	} 
 
-    WebElement deleteButtonElement=driver.findElement(By.xpath("//android.widget.Button[contains(@resource-id,'deleteEmployeeButton')]"));
-    deleteButtonElement.click();
-    
-    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-    
-    WebElement firstEmployee2=driver.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'fullNameTextView')]"));
-    
-    assert firstEmployee2.getText().equals("Carl Pavano"):"Actual value is : "+firstEmployee2.getText()+" did not match with expected value";
-	
-}
-
-
-@Test
+//@Test(priority=3)
 public void advertisementAppearTest() {
 	
 	int userCount = 1;
 	int noOfUsers =2;
 	for(int i =0;i<noOfUsers;i++) {
-		this.addUser(userCount);
+		String firstName = "testuser" + i ;
+		String Lastname = "testuser" + i ;
+		this.addUser(firstName,Lastname);
+		verifyadduser(firstName,Lastname);
 		userCount++;
 	}
-	
-	//and verify the advertisement
+	int count = driver.findElements(By.xpath("//android.widget.ImageView[@resource-id='com.aaks.qaautomation:id/adView']")).size();
+
+	Assert.assertTrue(count > 0, "Advertisement is displayed");
+ 
+
+
+ //
 }
 
 
-@Test
+@Test(priority=1)
 public void multipleUsersAdditionAndDeletion() {
 	
-	int userCount = 1;
+	String userName = "testuser";
 	int noOfUsers =10;
-	for(int i =0;i<noOfUsers;i++) {
-		this.addUser(userCount);
-		userCount++;
+	for(int i =1;i<=noOfUsers;i++) {
+		this.addUser(userName + i,userName + i);
+		if(i>=10)
+			scrolldown();
+		verifyadduser(userName + i,userName + i);
 	}
-	//delete user
-	//dismis adds
+	for(int i =1;i<=noOfUsers;i++) {
+		
+
+		
+		
+		  
+		//(new TouchAction(driver)).press(450,1913).moveTo(493,894).release().perform();
+		  
+		this.deleteUser(userName + i,userName + i);
+		//new TouchAction(driver).tap(450, 1913).perform();
+		//new TouchAction((MobileDriver) driver).press(100, 100).waitAction(50).release().perform();
+
+	}
 }
 
 
-public void addUser(int userId) {
-	WebElement addEmpElement=driver.findElement(By.xpath("//android.widget.ImageButton[contains(@resource-id,'fab')]"));
-    addEmpElement.click();
-	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-	WebElement firstNameElement=driver.findElement(By.xpath("//android.widget.EditText[contains(@resource-id,'firstNameEditText')]"));
-  
-	firstNameElement.sendKeys("firstname-"+userId);
-    WebElement lastNameElement=driver.findElement(By.xpath("//android.widget.EditText[contains(@resource-id,'lastNameEditText')]"));
-    lastNameElement.sendKeys("lastname-"+userId);
-    WebElement jobTitleElement=driver.findElement(By.xpath("//android.widget.Spinner[contains(@resource-id,'titleSpinner')]"));
-  
-	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-	
-	jobTitleElement.click();
-	
-	jobTitleElement.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'text1')]")).click();
+public void wait(By loc) {
+	wait.until(ExpectedConditions.presenceOfElementLocated(loc));
+	//wait.until(ExpectedConditions.elementToBeClickable(loc));
+}
+public void addUser(String firstname,String lastname) {
     
-	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    clickElement(By.xpath("//android.widget.ImageButton[contains(@resource-id,'fab')]"));
+    entervalue(By.xpath("//android.widget.EditText[contains(@resource-id,'firstNameEditText')]"), firstname);
+    entervalue(By.xpath("//android.widget.EditText[contains(@resource-id,'lastNameEditText')]"), lastname);
+    clickElement(By.xpath("//android.widget.Spinner[contains(@resource-id,'titleSpinner')]"));
 
-    WebElement projectElement=driver.findElement(By.xpath("//android.widget.Spinner[contains(@resource-id,'projectSpinner')]"));
-    
-	driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    clickElement(By.xpath("//android.widget.TextView[@text='Developer']"));
+    clickElement(By.xpath("//android.widget.Spinner[contains(@resource-id,'projectSpinner')]"));
 
-    projectElement.findElement(By.xpath("//android.widget.TextView[contains(@resource-id,'text1')]")).click();
+    clickElement(By.xpath("//android.widget.TextView[@text='Professional']"));
+    clickElement(By.xpath("//android.widget.Button[contains(@resource-id,'createButton')]"));
+	   
+   
     
-    WebElement createButtonElement=driver.findElement(By.xpath("//android.widget.Button[contains(@resource-id,'createButton')]"));
-    createButtonElement.click();
+    	//and verify the advertisement
+    }
+public void verifyadduser(String firstname,String lastname)
+{
+	 String xpa="//android.widget.TextView[@text='"+ firstname + " " + lastname + "']";
+	    try
+		{
+	    	//wait(loc);
+	    
+	    	wait(By.xpath("//android.widget.TextView[@text='"+ firstname + " " + lastname + "']"));
+	    	driver.findElement(By.xpath("//android.widget.TextView[@text='"+ firstname + " " + lastname + "']"));
+			System.out.println("User added successfully");
+		}
+		catch(Exception e)
+		{
+			System.out.println("User is not added");
+		}
+}
+public void scrolldown()
+{
+
+
+	TouchAction touchAction = new TouchAction(driver);
+	touchAction.tap(PointOption.point(450, 1913)).perform();
+	//(new TouchAction(driver)).press(450,1913).moveTo(493,894).release().perform();
+	//new TouchAction(driver).tap(PointOption.point(450,1913)).waitAction(new WaitOptions().withDuration(Duration.ofMillis(30))).moveTo(PointOption.point(450,1913)).release().perform();
+
+
+}
+
+public void entervalue(By loc,String value)
+{
+	 
+	  try {
+		  Thread.sleep(1000);
+		  wait(loc);
+		Thread.sleep(1000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	  driver.findElement(loc).sendKeys(value);
+	   
+}
+
+public void clickElement(By loc)
+{
+	  
+	  try {
+			Thread.sleep(1000);
+			wait(loc);
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  driver.findElement(loc).click();
+
+}
+
+
+public void deleteUser(String firstname,String lastname) {
+	String userId  =  firstname + " " + lastname ;
+	driver.findElement(By.xpath("//android.widget.TextView[@text='"+ userId + "']")).click();	  
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+   driver.findElement(By.xpath("//android.widget.Button[contains(@resource-id,'deleteEmployeeButton')]")).click();
+	try
+	{
+		driver.findElement(By.xpath("//android.widget.TextView[@text='"+ firstname + " " + lastname + "']"));
+		System.out.println("User Delected successfully");
+	}
+	catch(Exception e)
+	{
+		System.out.println("User is not Deleted");
+	} 
+ 
 }
+
+
 
 @AfterTest
 public void teardown(){

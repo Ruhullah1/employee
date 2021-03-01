@@ -1,6 +1,18 @@
 ## Employee
 
-### Environment Setup
+### Environment Setup 
+
+1.install JDK
+2.Install Sdk
+3.Install appium desktop
+4.Setup environmental variables for jdk and sdk
+5.Enable developers mode options android phone
+6.Install android sdkpackages
+7.check device connectivity using adb command 'adb devices'
+8.install eclipse ide and setup project
+9.setup appium project in eclipse
+10.setup testng
+
 
 1. Global Dependencies
     * [Install Maven](https://maven.apache.org/install.html)
@@ -8,13 +20,9 @@
     ```
     $ brew install maven
     ```
-2. Sauce Credentials
-    * In the terminal export your Sauce Labs Credentials as environmental variables:
+
     ```
-    $ export SAUCE_USERNAME=<your Sauce Labs username>
-    $ export SAUCE_ACCESS_KEY=<your Sauce Labs access key>
-    ```
-3. Project Dependencies
+2. Project Dependencies
 	* Check that Packages are available
 	```
 	$ cd Java-TestNg-Appium-Android
@@ -24,22 +32,10 @@
 	```
 	$ mvn versions:display-dependency-updates
 	```
-### Running Tests
 
-Tests in Parallel:
-	```
-	$ mvn test
-	```
-
-[Sauce Labs Dashboard](https://saucelabs.com/beta/dashboard/)
-
-### Advice/Troubleshooting
-1. It may be useful to use a Java IDE such as IntelliJ or Eclipse to help troubleshoot potential issues. 
-2. There may be additional latency when using a remote webdriver to run tests on Sauce Labs. Timeouts or Waits may need to be increased.
     * [Selenium tips regarding explicit waits](https://wiki.saucelabs.com/display/DOCS/Best+Practice%3A+Use+Explicit+Waits)
 
 ### Resources
-##### [Sauce Labs Documentation](https://wiki.saucelabs.com/)
 
 ##### [Appium Documentation](http://appium.io/slate/en/master/)
 
@@ -49,3 +45,40 @@ Tests in Parallel:
 
 ##### [Stack Overflow](http://stackoverflow.com/)
 * A great resource to search for issues not explicitly covered by documentation.
+
+
+Defects:
+
+
+Defect #1
+
+Title: Delete confirmation is not displaying
+
+Steps to reproduce:
+1)Open "Employee" application
+2)Select an employee- Employee details page will display with employee details
+3)Now click on "DELETE EMPLOYEE" button and observe
+
+Actual: Delete employee confirmation is not displaying
+Expected: Delete employee confirmation should display
+
+Defect #2
+
+Title:Error message "Project is required" is displaying even after selecting the Current Project
+
+Steps to reproduce:
+
+1)Open "Employee" application
+2)Click on "+" icon from the bottom right corner
+3)Enter employee details in "Create Employee" page as below
+4)Select any job title and click on CREATE EMPLOYEE --- 3 ERRORS WILL BE DISPLAYED
+5)Now select any current project from dropdown
+6) Now click on 'CREATE EMPLOYEE' button and observe
+
+Actual Result : Error message "Project is required" is still displaying even after selecting the required current project.
+Expected: Error should not be displayed under Current project as this field is already selected.
+
+
+
+
+
