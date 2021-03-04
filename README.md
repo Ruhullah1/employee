@@ -78,6 +78,20 @@ Steps to reproduce:
 Actual Result : Error message "Project is required" is still displaying even after selecting the required current project.
 Expected: Error should not be displayed under Current project as this field is already selected.
 
+Defect #2
+
+Title:User is able to create multiple employees with same details
+
+Steps to reproduce:
+
+1)Open "Employee" application
+2)Click on "+" icon from the bottom right corner
+3)Enter employee details in "Create Employee" page  and create employee
+4)Now again add the same employee details added in the step 3 and try to create an employee
+
+Actual Result : User is able to create multiple employees with same details
+
+
 
 
 
